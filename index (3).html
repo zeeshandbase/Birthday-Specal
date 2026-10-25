@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love 🤍</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #4a4a4a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Background Hearts */
+        .heart-bg {
+            position: absolute;
+            font-size: 18px;
+            color: rgba(217, 4, 41, 0.4);
+            animation: floatHearts 6s infinite linear;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes floatHearts {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.08);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            height: 100dvh;
+            background: rgba(255, 240, 243, 0.95);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 15px;
+            position: relative;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Music Button */
+        .music-btn {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: #ffffff;
+            border: 2px solid #ff4d6d;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 20;
+        }
+
+        /* Screen Style */
+        .screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            animation: fadeIn 0.6s ease-in-out;
+            padding-top: 10px;
+            min-height: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #d90429;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .sticker-img {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+            margin: 5px 0;
+            border-radius: 50%;
+            background: #fff;
+            padding: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .scroll-box {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            height: 58%;
+            overflow-y: auto;
+            text-align: left;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .scroll-box p {
+            margin-bottom: 10px;
+        }
+
+        /* Envelope Styles */
+        .envelope-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60%;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .envelope {
+            width: 220px;
+            height: 140px;
+            background: #d90429;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: 0.3s;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-heart {
+            font-size: 35px;
+            color: white;
+        }
+
+        /* Balloon Pop Game Styles */
+        .balloon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .balloon {
+            background: linear-gradient(135deg, #ff4d6d, #ff758f);
+            color: white;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(255, 77, 109, 0.4);
+            transition: 0.3s;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .balloon.popped {
+            background: #f8edeb;
+            color: #d90429;
+            border-radius: 12px;
+            box-shadow: none;
+            border: 1px dashed #d90429;
+            font-size: 11px;
+            font-weight: normal;
+        }
+
+        .btn {
+            background-color: #d90429;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(217, 4, 41, 0.3);
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .btn:hover {
+            background-color: #ef233c;
+            transform: scale(1.05);
+        }
+
+        @media (max-height: 700px) {
+            .container {
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+
+            .sticker-img {
+                width: 65px;
+                height: 65px;
+            }
+
+            .balloon {
+                height: 65px;
+            }
+
+            .scroll-box {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Music Audio -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Background Hearts -->
+    <div id="heart-container"></div>
+
+    <div class="container">
+        <!-- Music Toggle -->
+        <button class="music-btn" onclick="toggleMusic()" aria-label="Toggle background music">🎵</button>
+
+        <!-- 1. Loader Screen -->
+        <div id="loader" class="screen" style="justify-content: center;">
+            <div style="font-size: 55px; animation: pulse 1s infinite alternate;">🐼❤️🐻</div>
+
+            <h2 style="font-size: 18px; color: #d90429; margin-top: 15px;">
+                Preparing something special for you...
+            </h2>
+
+            <p style="color: #6b705c; font-size: 13px; margin-top: 5px;">
+                Meri Jaan, Just a little surprise ✨
+            </p>
+        </div>
+
+        <!-- 2. Screen 1: Welcome & Birthday Main Wish -->
+        <div id="screen-1" class="screen hidden">
+            <h1>🎉 HAPPY BIRTHDAY JAAWN 🎂</h1>
+
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Zsd2J6bWd6aWp0amF3ZzVtazE1NHlqOGF6bWhxN21yOWxreHFpcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BRv0ThflsHCqDrG/giphy.gif"
+                class="sticker-img" alt="Sticker">
+
+            <div class="scroll-box">
+                <p>
+                    <b>MY.... LOVE....💍🎂</b><br>
+                    26 - October - 2026 🤭😘
+                </p>
+
+                <p>
+                    <i>The beauty of: ♥️</i><br>
+                    آپ پــ֟፝͜ــٖـر صــ֟፝͜ــٖـرف میــ֟፝͜ــٖـرا حــ֟፝͜ــٖـق ہــ֟፝͜ــٖـے: 🫠🥹
+                </p>
+
+                <p>
+                    Mari zindagiiii... mera sukoon mari jaan, meri sanso ki wajah... 💗💍🥹💋 Aaj mari zindagii ka din hai, aaj mari duniya aye thi es duniya meee... Aaj ke din mera sukoon peda hua tha. Allah tomhare dil ki har khowish pure kaere.... 😘💗💍
+                </p>
+
+                <p>
+                    Allah tomhe hamesha sirf mera bana k rakhe kabhi kc ka na hone de ameeen 🤲🏻💋 Hamesha mari baho me rahoo or tumhe hamesha srif mere pas.... sukoon aaye ameeeeeene 🤲🏻🤍💍
+                </p>
+
+                <p>
+                    <b>- There Are 7 Billion People On Earth But...</b> 🌎💍🕊️💐<br>
+                    <b>You Are My Favourite 🫂🦋🌕</b>
+                </p>
+            </div>
+
+            <button class="btn" onclick="nextScreen(2)">Open Interactive Letter 💌</button>
+        </div>
+
+        <!-- 3. Screen 2: Interactive Envelope Screen -->
+        <div id="screen-2" class="screen hidden">
+            <h1>A Letter From My Heart 💌</h1>
+
+            <div class="envelope-container" onclick="openEnvelope()">
+                <div class="envelope" id="env">
+                    <div class="envelope-heart">💌</div>
+                </div>
+
+                <p style="margin-top: 15px; font-size: 13px; color: #d90429; font-weight: 600;">
+                    Tap Envelope To Open ✨
+                </p>
+            </div>
+
+            <div id="envelope-text" class="scroll-box hidden" style="height: 55%;">
+                <p><b>محترم! 💋❤️‍🔥</b></p>
+
+                <p>
+                    مجھے نہیں پتہ میں نے کون سی دعا مانگی تھی جو اللّٰہ نے آپ کو میری زندگی میں بھیج دیا... لیکن اتنا ضرور جانتی ہوں کہ آپ میرے لیے کسی نعمت سے کم نہیں!
+                </p>
+
+                <p>
+                    اس مطلبی دنیا میں آپ ہی وہ واحد انسان ہیں جس کے پاس آ کر مجھے لگتا ہے میں اپنے گھر آ گئی ہوں۔ آپ کا میری چھوٹی چھوٹی خوشیوں کا خیال رکھنا، میرے نخرے اٹھانا... آپ میرا سکون، میرا قرار اور میری پوری دنیا ہیں! ❤️‍🔥🌹💋🔐
+                </p>
+
+                <p><small>— Hunzii</small></p>
+            </div>
+
+            <button class="btn" onclick="nextScreen(3)">Pop Balloons 🎈</button>
+        </div>
+
+        <!-- 4. Screen 3: Balloon Pop Interactive Game -->
+        <div id="screen-3" class="screen hidden">
+            <h1>Pop The Balloons 🎈</h1>
+
+            <p style="font-size: 12px; color: #6b705c;">
+                Tap each balloon to reveal special wishes!
+            </p>
+
+            <div class="balloon-grid">
+                <div class="balloon" onclick="popBalloon(this, 'Always Smile 💖')">🎈 Pop Me</div>
+                <div class="balloon" onclick="popBalloon(this, 'My Sukoon 🫀')">🎈 Pop Me</div>
+                <div class="balloon" onclick="popBalloon(this, 'Forever Mine 🔐')">🎈 Pop Me</div>
+                <div class="balloon" onclick="popBalloon(this, 'Allah Bless You 🤲🏻')">🎈 Pop Me</div>
+                <div class="balloon" onclick="popBalloon(this, 'My Favorite Man 👑')">🎈 Pop Me</div>
+                <div class="balloon" onclick="popBalloon(this, 'I Love You 💋')">🎈 Pop Me</div>
+            </div>
+
+            <button class="btn" onclick="nextScreen(4)">Next Surprise ➜</button>
+        </div>
+
+        <!-- 5. Screen 4: Special Paragraphs & Du'as -->
+        <div id="screen-4" class="screen hidden">
+            <h1>👑 My Special Person 👑</h1>
+
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHR5aHNqcmFjMHQwdXp0cmV6d252OW5nbG84aXRvNW1nMnE0OHpobiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26FLdmIp6wJr91JAI/giphy.gif"
+                class="sticker-img" alt="Sticker">
+
+            <div class="scroll-box">
+                <p>
+                    <b>🎂 Happiest Birthday My Special One 🥹🩵🫀</b><br>
+                    Who knew my cousin would one day become my favorite person? Pehle hum sirf cousin thے پھر بات کرتے کرتے دوست بن گئے اور پتہ ہی نہیں چلا کہ کب تم میرے لیے اتنے خاص بن گئے... 🥹❤️<br>
+                    <i>— Hunzii</i>
+                </p>
+
+                <p>
+                    <b>Happy birthday to the most amazing husband I know... ❤️🔗🌼</b><br>
+                    I may not say it every day but you are my everything. You are not only my husband but also my best friend. May Allah bless you with happiness, love and success! 🌸🌺🫀<br>
+                    <i>— Hunzii</i>
+                </p>
+
+                <p>
+                    ♥︎ اللّٰہ ہمیں ہمیشہ ایک ساتھ رکھے، ہر دُکھ سے بچائے اور ہمیں جنت میں بھی ملائے `آمين` 🤲🏻💜🕋
+                </p>
+            </div>
+
+            <button class="btn" onclick="nextScreen(5)">Final Question 💍</button>
+        </div>
+
+        <!-- 6. Screen 5: Proposal & Confetti -->
+        <div id="screen-5" class="screen hidden">
+            <h1>💍 Will You Be Mine? 🥹❤️</h1>
+
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1cW02aXhqZXV4Y2d0aW5xYXg0OHo1ZjJ4ajh0cnV3OGVrc2p5YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ohhwkKBcDzRDUYuU0/giphy.gif"
+                class="sticker-img" alt="Sticker">
+
+            <div class="scroll-box" style="text-align: center; height: 50%;">
+                <p style="text-align: left;">
+                    مجھ سے نہیں معلوم محبت کی سب سے خوبصورت تعریف کیا ہے… لیکن اپنے دل کی بات تمہیں کہنی ہے… 🥹🫠💗
+                </p>
+
+                <p>
+                    <b>I CHOOSE YOU… not just for today, but for all the tomorrows Allah writes for us. 🤲🏻❤️</b>
+                </p>
+
+                <h3 style="color: #d90429; margin: 10px 0;">
+                    کیا تم میری زندگی کا سب سے خوبصورت حصہ بنو گے؟ 🌹
+                </h3>
+
+                <p style="font-size: 13px; font-weight: bold; color: #d90429;">
+                    JusT SaY YES… 🥹❤️<br>
+                    اور میری ساری دنیا تمہاری مسکراہٹ میں بس جائے گی! 🌍🫀
+                </p>
+
+                <p style="margin-top: 10px;">
+                    <b>🌷🦋 I LOVE YOU 🦋🌷</b><br>
+                    — Hunzii 🎀
+                </p>
+            </div>
+
+            <button class="btn" onclick="triggerConfetti()">🎉 Celebrate & Replay 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // Automatic Loader Transition
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('screen-1').classList.remove('hidden');
+            }, 2800);
+        });
+
+        // Floating Hearts Logic
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+
+            document.getElementById('heart-container').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(createHeart, 400);
+
+        // Music Control
+        let isPlaying = false;
+
+        async function toggleMusic() {
+            const music = document.getElementById('bg-music');
+
+            if (isPlaying) {
+                music.pause();
+                isPlaying = false;
+            } else {
+                try {
+                    await music.play();
+                    isPlaying = true;
+                } catch (error) {
+                    console.warn('Music could not be played:', error);
+                }
+            }
+        }
+
+        // Screen Navigation
+        function nextScreen(num) {
+            const screens = [
+                'screen-1',
+                'screen-2',
+                'screen-3',
+                'screen-4',
+                'screen-5'
+            ];
+
+            screens.forEach((screenId) => {
+                document.getElementById(screenId).classList.add('hidden');
+            });
+
+            const next = document.getElementById('screen-' + num);
+
+            if (next) {
+                next.classList.remove('hidden');
+            }
+
+            if (num === 5 && typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // Open Envelope Interactive Action
+        function openEnvelope() {
+            document.querySelector('.envelope-container').style.display = 'none';
+            document.getElementById('envelope-text').classList.remove('hidden');
+        }
+
+        // Balloon Pop Action
+        function popBalloon(element, text) {
+            element.classList.add('popped');
+            element.textContent = text;
+            element.onclick = null;
+        }
+
+        // Trigger Confetti Blast
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 150,
+                    spread: 90,
+                    origin: { y: 0.5 }
+                });
+            }
+
+            setTimeout(() => {
+                // Reset the interactive envelope before replaying.
+                document.querySelector('.envelope-container').style.display = 'flex';
+                document.getElementById('envelope-text').classList.add('hidden');
+
+                // Reset balloons for replay.
+                document.querySelectorAll('.balloon').forEach((balloon) => {
+                    balloon.classList.remove('popped');
+                    balloon.textContent = '🎈 Pop Me';
+                    balloon.onclick = null;
+                });
+
+                const balloons = document.querySelectorAll('.balloon');
+                const wishes = [
+                    'Always Smile 💖',
+                    'My Sukoon 🫀',
+                    'Forever Mine 🔐',
+                    'Allah Bless You 🤲🏻',
+                    'My Favorite Man 👑',
+                    'I Love You 💋'
+                ];
+
+                balloons.forEach((balloon, index) => {
+                    balloon.onclick = function () {
+                        popBalloon(this, wishes[index]);
+                    };
+                });
+
+                nextScreen(1);
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
